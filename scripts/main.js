@@ -24,8 +24,8 @@ var cursors;
 var score = 0;
 
 var scoreText;
-var starCollected = 0;
-var starScoreText;
+var boxCollected = 0;
+var boxScoreText;
 var colors = [0xff0000, 0xffa500, 0xffff00, 0x008000, 0x0000ff, 0x4b0082, 0xee82ee];
 var currentColorIndex = 0;
 var game = new Phaser.Game(config);
@@ -84,7 +84,7 @@ function create ()
     box = this.physics.add.group({
         key: 'box',
         repeat: 0,
-        setXY: { x: Math.random() * game.config.width - 10, y: Math.random() * game.config.height - 70, stepX: 40 }
+        setXY: { x: Math.random() * game.config.width - 70, y: Math.random() * game.config.height - 70, stepX: 40 }
     });
     box.children.iterate(function (child) {
     
@@ -96,9 +96,9 @@ function create ()
 
  
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
-    starScoreText = this.add.text(16, 40, 'Stars Collected: 0', { fontSize: '32px', fill: '#000' });
+    boxScoreText = this.add.text(16, 40, 'Box Collected: 0', { fontSize: '32px', fill: '#000' });
 
-    this.lostTextBox = this.add.text(400, 250, 'You lost\nScore: 0', {
+    this.lostTextBox = this.add.text(400, 250, 'Game Over!\nScore: 0 \nBox Collected: 0', {
         fontSize: '32px',
         fill: '#00CED1',
         align: 'center'
@@ -147,11 +147,11 @@ function collectStar (player, star)
     star.disableBody(true, true);
 
     score += 10;
-    starCollected += 1;
+    boxCollected += 1;
     scoreText.setText('Score: ' + score);
-    starScoreText.setText('Stars Collected: ' + starCollected);
+    boxScoreText.setText('Stars Collected: ' + boxCollected);
 
-    if (starCollected % 5 === 0) {
+    if (boxCollected % 5 === 0) {
         player.setScale(player.scaleX + 0.1, player.scaleY + 0.1);
     }
     if (box.countActive(true) === 0)
@@ -172,7 +172,7 @@ function collectStar (player, star)
 function hitBomb (player, bomb){
     this.physics.pause();
     player.disableBody(true,true);
-    this.lostTextBox.setText('Game Over!\nScore: ' + score + '\nStar Collected: '+ starCollected);
+    this.lostTextBox.setText('Game Over!\nScore: ' + score + '\nBox Collected: '+ boxCollected);
     this.lostTextBox.visible = true;
     }
 
