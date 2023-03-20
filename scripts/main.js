@@ -123,19 +123,16 @@ function update ()
     if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
-
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
         player.setVelocityX(160);
-
         player.anims.play('right', true);
     }
     else
     {
         player.setVelocityX(0);
-
         player.anims.play('turn');
     }
 
@@ -149,7 +146,6 @@ function collectStar (player, star)
 {
     star.disableBody(true, true);
 
-   
     score += 10;
     starCollected += 1;
     scoreText.setText('Score: ' + score);
@@ -159,10 +155,8 @@ function collectStar (player, star)
        
         player.setScale(player.scaleX + 0.1, player.scaleY + 0.1);
     }
-
     if (box.countActive(true) === 0)
     {
-
         box.children.iterate(function (child) {
             child.enableBody(true, Math.random() * game.config.width - 10, 0, true, true);
         });
@@ -176,7 +170,6 @@ function collectStar (player, star)
     }
 }
 
-
 function hitBomb (player, bomb)
 {
     this.physics.pause();
@@ -185,6 +178,7 @@ function hitBomb (player, bomb)
     this.lostTextBox.setText('Game Over!\nScore: ' + score + '\nStar Collected: '+ starCollected);
     this.lostTextBox.visible = true;
     }
+
 function playerColors(){
     
       player.setTint(colors[currentColorIndex]);
