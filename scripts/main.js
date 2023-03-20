@@ -98,14 +98,9 @@ function create ()
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     starScoreText = this.add.text(16, 40, 'Stars Collected: 0', { fontSize: '32px', fill: '#000' });
 
-   
-    this.lostTextBox = this.add.graphics();
-    this.lostTextBox.fillStyle(0xffffff, 0.8);
-    this.lostTextBox.fillRect(200, 200, 400, 200);
-    this.lostTextBox.visible = false;
     this.lostTextBox = this.add.text(400, 250, 'You lost\nScore: 0', {
         fontSize: '32px',
-        fill: '#000',
+        fill: '#00CED1',
         align: 'center'
         });
     this.lostTextBox.setOrigin(0.5);
