@@ -17,7 +17,7 @@ var config = {
 };
 
 var player;
-var stars;
+var box;
 var bombs;
 var platforms;
 var cursors;
@@ -32,38 +32,32 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('sky', 'assets/sky.png');
+    this.load.image('bg', 'assets/bg.png');
     this.load.image('ground', 'assets/platform.png');
-    this.load.image('star', 'assets/star.png');
+    this.load.image('box', 'assets/spawn.png');
     this.load.image('bomb', 'assets/bomb.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 }
 
 function create ()
 {
-    //  A simple background for our game
-    this.add.image(400, 300, 'sky');
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
+    this.add.image(400, 300, 'bg');
+
     platforms = this.physics.add.staticGroup();
 
-    //  Here we create the ground.
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
 
-    //  Now let's create some ledges
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
-
-    // The player and its settings
+    platforms.setTint(0xff4500);
+    
     player = this.physics.add.sprite(100, 450, 'dude');
 
-    //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
-    //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -84,30 +78,27 @@ function create ()
         repeat: -1
     });
 
-    //  Input Events
+  
     cursors = this.input.keyboard.createCursorKeys();
 
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: 'star',
+    box = this.physics.add.group({
+        key: 'box',
         repeat: 0,
-        setXY: { x: Math.random() * game.config.width - 7, y: Math.random() * game.config.height - 70, stepX: 70 }
+        setXY: { x: Math.random() * game.config.width - 10, y: Math.random() * game.config.height - 70, stepX: 40 }
     });
-    stars.children.iterate(function (child) {
+    box.children.iterate(function (child) {
     
-        //  Give each star a slightly different bounce
         child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
     });
 
     bombs = this.physics.add.group();
 
-    //  The score
-
+ 
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     starScoreText = this.add.text(16, 40, 'Stars Collected: 0', { fontSize: '32px', fill: '#000' });
 
-    // Lost Text Box
+   
     this.lostTextBox = this.add.graphics();
     this.lostTextBox.fillStyle(0xffffff, 0.8);
     this.lostTextBox.fillRect(200, 200, 400, 200);
@@ -121,13 +112,13 @@ function create ()
     this.lostTextBox.visible = false;      
     
 
-    //  Collide the player and the stars with the platforms
+ 
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(box, platforms);
     this.physics.add.collider(bombs, platforms);
 
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, playerColors, null, this);
+ 
+    this.physics.add.overlap(player, box, collectStar, playerColors, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
@@ -163,23 +154,22 @@ function collectStar (player, star)
 {
     star.disableBody(true, true);
 
-    //  Add and update the score
+   
     score += 10;
     starCollected += 1;
     scoreText.setText('Score: ' + score);
     starScoreText.setText('Stars Collected: ' + starCollected);
 
     if (starCollected % 5 === 0) {
-        // Increase the player's size/scale by 10%
+       
         player.setScale(player.scaleX + 0.1, player.scaleY + 0.1);
     }
 
-    if (stars.countActive(true) === 0)
+    if (box.countActive(true) === 0)
     {
 
-        //  A new batch of stars to collect
-        stars.children.iterate(function (child) {
-            child.enableBody(true, Math.random() * game.config.width, 0, true, true);
+        box.children.iterate(function (child) {
+            child.enableBody(true, Math.random() * game.config.width - 10, 0, true, true);
         });
 
         var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
