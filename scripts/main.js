@@ -152,7 +152,6 @@ function collectStar (player, star)
     starScoreText.setText('Stars Collected: ' + starCollected);
 
     if (starCollected % 5 === 0) {
-       
         player.setScale(player.scaleX + 0.1, player.scaleY + 0.1);
     }
     if (box.countActive(true) === 0)
@@ -170,17 +169,14 @@ function collectStar (player, star)
     }
 }
 
-function hitBomb (player, bomb)
-{
+function hitBomb (player, bomb){
     this.physics.pause();
-
     player.disableBody(true,true);
     this.lostTextBox.setText('Game Over!\nScore: ' + score + '\nStar Collected: '+ starCollected);
     this.lostTextBox.visible = true;
     }
 
 function playerColors(){
-    
       player.setTint(colors[currentColorIndex]);
       currentColorIndex = (currentColorIndex + 1) % colors.length;
 }
