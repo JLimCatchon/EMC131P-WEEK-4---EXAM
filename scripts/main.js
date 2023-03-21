@@ -84,7 +84,7 @@ function create ()
     box = this.physics.add.group({
         key: 'box',
         repeat: 0,
-        setXY: { x: Math.random() * game.config.width - 100, y: Math.random() * game.config.height - 70, stepX: 40 }
+        setXY: { x: game.config.width * Math.random() - Math.random(80), y: Math.random() * game.config.height - 70, stepX: 40 }
     });
     box.children.iterate(function (child) {
     
