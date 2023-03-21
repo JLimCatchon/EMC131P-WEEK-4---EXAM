@@ -35,7 +35,7 @@ function preload ()
     this.load.image('bg', 'assets/bg.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('box', 'assets/spawn.png');
-    this.load.image('bomb', 'assets/bomb.png');
+    this.load.image('bomb', 'assets/blueerr.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 }
 
@@ -84,7 +84,7 @@ function create ()
     box = this.physics.add.group({
         key: 'box',
         repeat: 0,
-        setXY: { x: Math.random() * game.config.width - 70, y: Math.random() * game.config.height - 70, stepX: 40 }
+        setXY: { x: Math.random() * game.config.width - 100, y: Math.random() * game.config.height - 70, stepX: 40 }
     });
     box.children.iterate(function (child) {
     
@@ -96,7 +96,7 @@ function create ()
 
  
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
-    boxScoreText = this.add.text(16, 40, 'Box Collected: 0', { fontSize: '32px', fill: '#000' });
+    boxScoreText = this.add.text(420, 16, 'Box Collected: 0', { fontSize: '32px', fill: '#000' });
 
     this.lostTextBox = this.add.text(400, 250, 'Game Over!\nScore: 0 \nBox Collected: 0', {
         fontSize: '32px',
