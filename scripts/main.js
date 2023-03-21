@@ -149,7 +149,7 @@ function collectStar (player, star)
     score += 10;
     boxCollected += 1;
     scoreText.setText('Score: ' + score);
-    boxScoreText.setText('Stars Collected: ' + boxCollected);
+    boxScoreText.setText('Box Collected: ' + boxCollected);
 
     if (boxCollected % 5 === 0) {
         player.setScale(player.scaleX + 0.1, player.scaleY + 0.1);
